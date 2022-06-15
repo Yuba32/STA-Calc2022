@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'dart:math';
-import 'package:flutter_html/flutter_html.dart';
 // import 'package:math_keyboard/math_keyboard.dart';
 
 class Calculator extends StatefulWidget {
