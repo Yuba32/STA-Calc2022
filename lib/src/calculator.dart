@@ -6,6 +6,7 @@ class Calculator extends StatefulWidget {
   const Calculator({Key? key, required this.title}) : super(key: key);
 
   final String title;
+
   @override
   State<Calculator> createState() => _CalculatorState();
 }
@@ -66,9 +67,73 @@ class _CalculatorState extends State<Calculator> {
     }
   }
 
-@override
-Widget build(BuildContext context){
+  Widget getButton(String context) {
+    return new Expanded(
+        child: new OutlinedButton(
+      child: Text(
+        context,
+        style: TextStyle(fontSize: 20),
+      ),
+      onPressed: () => setVal(context),
+    ));
+  }
 
-}
+  Widget _disp(BuildContext buildContext) {
+    return Container(
+      child: Row(
+        children: [],
+      ),
+    );
+  }
 
+  Widget _numPad(BuildContext buildContext) {
+    return Container(
+        child: Column(
+      children: [
+        Row(
+          children: [
+            getButton("7"),
+          ],
+        ),
+      ],
+    ));
+  }
+
+  Widget _signPad(BuildContext buildContext) {
+    return Container(
+        child: Column(
+      children: [
+        Row(
+          children: [
+            getButton("AC"),
+            getButton("BS"),
+          ],
+        ),
+      ],
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("電卓"),
+        ),
+        body: Row(
+          children: [
+            Row(
+              children: [
+                _disp(),
+              ],
+            ),
+            Center(
+                child: Row(
+              children: [
+                _numPad(),
+                _signPad(),
+              ],
+            )),
+          ],
+        ));
+  }
 }
