@@ -81,96 +81,75 @@ class _CalculatorState extends State<Calculator> {
 
   //ボタン生成
   Widget getButton(String text) {
-    return Expanded(
-      child: OutlinedButton(
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black, fontSize: 40),
-          ),
-          onPressed: () => buttonpress(text),
-          style: OutlinedButton.styleFrom(
-            backgroundColor: Colors.white,
-            padding: EdgeInsets.all(20),
-          )),
+    return OutlinedButton(
+      onPressed: () => buttonpress(text),
+      style: OutlinedButton.styleFrom(
+        backgroundColor: Colors.white,
+      ),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(color: Colors.black, fontSize: 40),
+      ),
     );
   }
 
   Widget _displayArea() {
-    return Expanded(
-      child: Container(
-        alignment: Alignment.center,
-        child: Column(
-          children: [
-            Container(
-              child: Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 15,
-                ),
-                textAlign: TextAlign.right,
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
+        children: [
+          Container(
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 15,
               ),
-              width: double.infinity,
+              textAlign: TextAlign.right,
             ),
-            Container(
-              child: Text(
-                result,
-                style: const TextStyle(
-                  fontSize: 40,
-                ),
-                textAlign: TextAlign.right,
+          ),
+          Container(
+            child: Text(
+              result,
+              style: const TextStyle(
+                fontSize: 40,
               ),
-              width: double.infinity,
+              textAlign: TextAlign.right,
             ),
-          ],
-        ),
+            width: double.infinity,
+          ),
+        ],
       ),
     );
   }
 
   Widget _keyboardArea() {
     return Container(
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              child: GridView.count(
-                crossAxisCount: 3,
-                shrinkWrap: true,
-                children: <Widget>[
-                  getButton("7"),
-                  getButton("8"),
-                  getButton("9"),
-                  getButton("4"),
-                  getButton("5"),
-                  getButton("6"),
-                  getButton("1"),
-                  getButton("2"),
-                  getButton("3"),
-                  getButton("0"),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              child: GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                children: <Widget>[
-                  getButton("AC"),
-                  getButton("BS"),
-                  getButton("("),
-                  getButton(")"),
-                  getButton("*"),
-                  getButton("/"),
-                  getButton("+"),
-                  getButton("-"),
-                  getButton("="),
-                ],
-              ),
-            ),
-          ),
+      alignment: Alignment.topCenter,
+      child: GridView.count(
+        crossAxisCount: 5,
+        shrinkWrap: true,
+        children: <Widget>[
+          getButton("7"),
+          getButton("8"),
+          getButton("9"),
+          getButton("("),
+          getButton(")"),
+          getButton("4"),
+          getButton("5"),
+          getButton("6"),
+          getButton("*"),
+          getButton("/"),
+          getButton("1"),
+          getButton("2"),
+          getButton("3"),
+          getButton("+"),
+          getButton("-"),
+          getButton("0"),
+          getButton("."),
+          getButton("="),
+          getButton("BS"),
+          getButton("AC"),
         ],
       ),
     );
