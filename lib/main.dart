@@ -11,11 +11,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //ページタイトル
       title: '電卓',
+      //デバッグ帯を表示しない
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        //メイン色
         primarySwatch: Colors.blue,
       ),
+      //ページ生成
       home: const Calculator(title: '電卓'),
     );
   }
