@@ -83,19 +83,23 @@ class _CalculatorState extends State<Calculator> {
   Widget getButton(String text) {
     return Expanded(
       child: OutlinedButton(
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.black, fontSize: 15),
-        ),
-        onPressed: () => buttonpress(text),
-      ),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.black, fontSize: 40),
+          ),
+          onPressed: () => buttonpress(text),
+          style: OutlinedButton.styleFrom(
+            backgroundColor: Colors.white,
+            padding: EdgeInsets.all(20),
+          )),
     );
   }
 
   Widget _displayArea() {
     return Expanded(
       child: Container(
+        alignment: Alignment.center,
         child: Column(
           children: [
             Container(
@@ -106,6 +110,7 @@ class _CalculatorState extends State<Calculator> {
                 ),
                 textAlign: TextAlign.right,
               ),
+              width: double.infinity,
             ),
             Container(
               child: Text(
@@ -115,55 +120,8 @@ class _CalculatorState extends State<Calculator> {
                 ),
                 textAlign: TextAlign.right,
               ),
+              width: double.infinity,
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  //テンキー
-
-  //テンキー生成
-  Widget _numPad() {
-    return Expanded(
-      child: Container(
-        child: GridView.count(
-          crossAxisCount: 3,
-          shrinkWrap: true,
-          children: <Widget>[
-            getButton("9"),
-            getButton("8"),
-            getButton("7"),
-            getButton("6"),
-            getButton("5"),
-            getButton("4"),
-            getButton("3"),
-            getButton("2"),
-            getButton("1"),
-            getButton("0"),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _signPad() {
-    return Expanded(
-      child: Container(
-        child: GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          children: <Widget>[
-            getButton("AC"),
-            getButton("BS"),
-            getButton("("),
-            getButton(")"),
-            getButton("*"),
-            getButton("/"),
-            getButton("+"),
-            getButton("-"),
-            getButton("="),
           ],
         ),
       ),
@@ -174,8 +132,45 @@ class _CalculatorState extends State<Calculator> {
     return Container(
       child: Row(
         children: [
-          _numPad(),
-          _signPad(),
+          Expanded(
+            child: Container(
+              child: GridView.count(
+                crossAxisCount: 3,
+                shrinkWrap: true,
+                children: <Widget>[
+                  getButton("7"),
+                  getButton("8"),
+                  getButton("9"),
+                  getButton("4"),
+                  getButton("5"),
+                  getButton("6"),
+                  getButton("1"),
+                  getButton("2"),
+                  getButton("3"),
+                  getButton("0"),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                children: <Widget>[
+                  getButton("AC"),
+                  getButton("BS"),
+                  getButton("("),
+                  getButton(")"),
+                  getButton("*"),
+                  getButton("/"),
+                  getButton("+"),
+                  getButton("-"),
+                  getButton("="),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -184,8 +179,6 @@ class _CalculatorState extends State<Calculator> {
   //complete
   @override
   Widget build(BuildContext context) {
-    final double deviceHeight = MediaQuery.of(context).size.height;
-    final double deviceWidth = MediaQuery.of(context).size.width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
