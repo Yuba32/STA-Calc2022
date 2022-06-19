@@ -31,9 +31,11 @@ class _CalculatorState extends State<Calculator> {
 
   void setVal(String val) {
     setState(() {
-      if (value == "0") {
+      if (value == "0" && double.tryParse(val) != null) {
+        //0の状態で数字キーを押すと上書き
         value = val;
       } else {
+        //それ以外の場合は文字列として追加
         value += val;
       }
     });
@@ -103,7 +105,7 @@ class _CalculatorState extends State<Calculator> {
             child: Text(
               value,
               style: const TextStyle(
-                fontSize: 15,
+                fontSize: 30,
               ),
               textAlign: TextAlign.right,
             ),
@@ -112,7 +114,7 @@ class _CalculatorState extends State<Calculator> {
             child: Text(
               result,
               style: const TextStyle(
-                fontSize: 40,
+                fontSize: 70,
               ),
               textAlign: TextAlign.right,
             ),
@@ -133,23 +135,23 @@ class _CalculatorState extends State<Calculator> {
           getButton("7"),
           getButton("8"),
           getButton("9"),
-          getButton("("),
-          getButton(")"),
+          getButton("BS"),
+          getButton("AC"),
           getButton("4"),
           getButton("5"),
           getButton("6"),
-          getButton("*"),
-          getButton("/"),
+          getButton("("),
+          getButton(")"),
           getButton("1"),
           getButton("2"),
           getButton("3"),
-          getButton("+"),
-          getButton("-"),
+          getButton("*"),
+          getButton("/"),
           getButton("0"),
           getButton("."),
           getButton("="),
-          getButton("BS"),
-          getButton("AC"),
+          getButton("+"),
+          getButton("-"),
         ],
       ),
     );
