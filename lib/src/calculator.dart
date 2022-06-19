@@ -79,7 +79,7 @@ class _CalculatorState extends State<Calculator> {
     }
   }
 
-    //ボタン生成
+  //ボタン生成
   Widget getButton(String text) {
     return Expanded(
       child: OutlinedButton(
@@ -184,18 +184,19 @@ class _CalculatorState extends State<Calculator> {
   //complete
   @override
   Widget build(BuildContext context) {
+    final double deviceHeight = MediaQuery.of(context).size.height;
+    final double deviceWidth = MediaQuery.of(context).size.width;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              _displayArea(),
-              _keyboardArea(),
-            ],
-          ),
+        body: Column(
+          children: <Widget>[
+            _displayArea(),
+            _keyboardArea(),
+          ],
         ),
       ),
     );
