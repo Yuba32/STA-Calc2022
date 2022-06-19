@@ -36,7 +36,7 @@ class _CalculatorState extends State<Calculator> {
   void setVal(String val) {
     setState(() {
       if (value == "0" && ((double.tryParse(val) != null) || val == "(")) {
-        //0の状態で数字キーを押すと上書き
+        //0の状態で数字キーもしくは(を押すと上書き
         value = val;
       } else {
         //それ以外の場合は文字列として追加
