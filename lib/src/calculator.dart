@@ -88,7 +88,6 @@ class _CalculatorState extends State<Calculator> {
       style: ElevatedButton.styleFrom(
         primary: color,
         onPrimary: Colors.black,
-        maximumSize: Size(70, 70),
         shape: const CircleBorder(
           side: BorderSide(
             color: Colors.black45,
@@ -141,8 +140,8 @@ class _CalculatorState extends State<Calculator> {
   Widget _keyboardArea() {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: 650,
-        maxWidth: 800,
+        maxHeight: 640,
+        maxWidth: 500,
       ),
       alignment: Alignment.topCenter,
       child: GridView.count(
