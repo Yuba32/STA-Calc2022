@@ -67,8 +67,8 @@ class _CalculatorState extends State<Calculator> {
     }
   }
 
-  void buttonpress(String type) {
-    switch (type) {
+  void buttonpress(String text) {
+    switch (text) {
       case "AC":
         allclear();
         break;
@@ -79,7 +79,7 @@ class _CalculatorState extends State<Calculator> {
         resolve();
         break;
       default:
-        setVal(type);
+        setVal(text);
     }
   }
 
@@ -88,114 +88,121 @@ class _CalculatorState extends State<Calculator> {
     return Expanded(
       child: Container(
         child: OutlinedButton(
-          onPressed: () => buttonpress(text),
-          style: OutlinedButton.styleFrom(),
           child: Text(
             text,
-            style: const TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.black, fontSize: 15),
           ),
+          onPressed: () => buttonpress(text),
         ),
       ),
     );
   }
 
-  Widget _disp() {
-    return Container(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Text(
+  Widget _displayArea() {
+    return Expanded(
+      child: Container(
+        child: Column(
+          children: [
+            Container(
+              child: Text(
                 value,
-                style: const TextStyle(fontSize: 15),
+                style: const TextStyle(
+                  fontSize: 15,
+                ),
                 textAlign: TextAlign.right,
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(
+            ),
+            Container(
+              child: Text(
                 result,
-                style: const TextStyle(fontSize: 40),
+                style: const TextStyle(
+                  fontSize: 40,
+                ),
                 textAlign: TextAlign.right,
               ),
-            ],
-          )
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  var numpadlist = <String>["9", "8", "7", "6", "5", "4", "3", "2", "1", "0"];
+  //テンキー
 
+  //テンキー生成
   Widget _numPad() {
     return Expanded(
-      child: GridView.builder(),
+      child: Container(
+        child: GridView.count(
+          crossAxisCount: 3,
+          shrinkWrap: true,
+          children: <Widget>[
+            getButton("9"),
+            getButton("8"),
+            getButton("7"),
+            getButton("6"),
+            getButton("5"),
+            getButton("4"),
+            getButton("3"),
+            getButton("2"),
+            getButton("1"),
+            getButton("0"),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _signPad() {
+    return Expanded(
+      child: Container(
+        child: GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          children: <Widget>[
+            getButton("AC"),
+            getButton("BS"),
+            getButton("("),
+            getButton(")"),
+            getButton("*"),
+            getButton("/"),
+            getButton("+"),
+            getButton("-"),
+            getButton("="),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _keyboardArea() {
     return Container(
-      child: Column(
+      child: Row(
         children: [
-          Row(
-            children: [
-              getButton("AC"),
-              getButton("BS"),
-            ],
-          ),
-          Row(
-            children: [
-              getButton("("),
-              getButton(")"),
-            ],
-          ),
-          Row(
-            children: [
-              getButton("*"),
-              getButton("/"),
-            ],
-          ),
-          Row(
-            children: [
-              getButton("+"),
-              getButton("-"),
-            ],
-          ),
-          Row(
-            children: [
-              getButton("="),
-            ],
-          ),
+          _numPad(),
+          _signPad(),
         ],
       ),
     );
   }
 
+  //complete
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        //タイトルバー
-        title: const Text("電卓"),
-      ),
-      body: Column(
-        mainAxisAlignment: 1,
-        crossAxisAlignment: 2,
-        children: [
-          Container(
-            child: _disp(),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              _displayArea(),
+              _keyboardArea(),
+            ],
           ),
-          Center(
-            child: Row(
-              children: <Widget>[
-                _numPad(),
-                _signPad(),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
