@@ -31,7 +31,7 @@ class _CalculatorState extends State<Calculator> {
 
   void setVal(String val) {
     setState(() {
-      if (value == "0" && double.tryParse(val) != null) {
+      if (value == "0" && ((double.tryParse(val) != null) || val == "(")) {
         //0の状態で数字キーを押すと上書き
         value = val;
       } else {
@@ -82,39 +82,52 @@ class _CalculatorState extends State<Calculator> {
   }
 
   //ボタン生成
-  Widget getButton(String text) {
-    return OutlinedButton(
+  Widget getButton(String text, Color color) {
+    return ElevatedButton(
       onPressed: () => buttonpress(text),
-      style: OutlinedButton.styleFrom(
-        backgroundColor: Colors.white,
+      style: ElevatedButton.styleFrom(
+        primary: color,
+        onPrimary: Colors.black,
+        maximumSize: Size(70, 70),
+        shape: const CircleBorder(
+          side: BorderSide(
+            color: Colors.black45,
+            width: 3,
+            style: BorderStyle.solid,
+          ),
+        ),
       ),
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: const TextStyle(color: Colors.black, fontSize: 40),
+        style: const TextStyle(color: Colors.black, fontSize: 50),
       ),
     );
   }
 
   Widget _displayArea() {
     return Container(
-      alignment: Alignment.center,
+      alignment: Alignment.topCenter,
+      width: 600,
       child: Column(
         children: [
           Container(
+            alignment: Alignment.topRight,
             child: Text(
               value,
               style: const TextStyle(
                 fontSize: 30,
+                color: Colors.grey,
               ),
               textAlign: TextAlign.right,
             ),
           ),
           Container(
+            alignment: Alignment.topRight,
             child: Text(
               result,
               style: const TextStyle(
-                fontSize: 70,
+                fontSize: 90,
               ),
               textAlign: TextAlign.right,
             ),
@@ -127,31 +140,36 @@ class _CalculatorState extends State<Calculator> {
 
   Widget _keyboardArea() {
     return Container(
+      constraints: BoxConstraints(
+        maxHeight: 650,
+        maxWidth: 800,
+      ),
       alignment: Alignment.topCenter,
       child: GridView.count(
+        childAspectRatio: 1 / 1,
         crossAxisCount: 5,
         shrinkWrap: true,
         children: <Widget>[
-          getButton("7"),
-          getButton("8"),
-          getButton("9"),
-          getButton("BS"),
-          getButton("AC"),
-          getButton("4"),
-          getButton("5"),
-          getButton("6"),
-          getButton("("),
-          getButton(")"),
-          getButton("1"),
-          getButton("2"),
-          getButton("3"),
-          getButton("*"),
-          getButton("/"),
-          getButton("0"),
-          getButton("."),
-          getButton("="),
-          getButton("+"),
-          getButton("-"),
+          getButton("7", Colors.white),
+          getButton("8", Colors.white),
+          getButton("9", Colors.white),
+          getButton("BS", Colors.lightBlueAccent),
+          getButton("AC", Colors.lightBlueAccent),
+          getButton("4", Colors.white),
+          getButton("5", Colors.white),
+          getButton("6", Colors.white),
+          getButton("(", Colors.lightBlueAccent),
+          getButton(")", Colors.lightBlueAccent),
+          getButton("1", Colors.white),
+          getButton("2", Colors.white),
+          getButton("3", Colors.white),
+          getButton("*", Colors.lightBlueAccent),
+          getButton("/", Colors.lightBlueAccent),
+          getButton("0", Colors.white),
+          getButton(".", Colors.white),
+          getButton("=", Colors.tealAccent),
+          getButton("+", Colors.lightBlueAccent),
+          getButton("-", Colors.lightBlueAccent),
         ],
       ),
     );
@@ -166,11 +184,13 @@ class _CalculatorState extends State<Calculator> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: Column(
-          children: <Widget>[
-            _displayArea(),
-            _keyboardArea(),
-          ],
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              _displayArea(),
+              _keyboardArea(),
+            ],
+          ),
         ),
       ),
     );
