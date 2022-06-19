@@ -68,33 +68,27 @@ class _CalculatorState extends State<Calculator> {
   }
 
   void buttonpress(String text) {
-    switch (text) {
-      case "AC":
-        allclear();
-        break;
-      case "BS":
-        delchar();
-        break;
-      case "=":
-        resolve();
-        break;
-      default:
-        setVal(text);
+    if (text == "AC") {
+      allclear();
+    } else if (text == "BS") {
+      delchar();
+    } else if (text == "=") {
+      resolve();
+    } else {
+      setVal(text);
     }
   }
 
-  Widget getButton(String text) {
     //ボタン生成
+  Widget getButton(String text) {
     return Expanded(
-      child: Container(
-        child: OutlinedButton(
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black, fontSize: 15),
-          ),
-          onPressed: () => buttonpress(text),
+      child: OutlinedButton(
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.black, fontSize: 15),
         ),
+        onPressed: () => buttonpress(text),
       ),
     );
   }
