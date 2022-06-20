@@ -107,7 +107,9 @@ class _CalculatorState extends State<Calculator> {
   Widget _displayArea() {
     return Container(
       alignment: Alignment.topCenter,
-      width: 600,
+      constraints: BoxConstraints(
+        minHeight: 200,
+      ),
       child: Column(
         children: [
           Container(
@@ -140,7 +142,8 @@ class _CalculatorState extends State<Calculator> {
   Widget _keyboardArea() {
     return Container(
       constraints: BoxConstraints(
-        maxWidth: 500,
+        maxWidth: 100 * 5,
+        maxHeight: 100 * 4,
       ),
       alignment: Alignment.topCenter,
       child: GridView.count(
@@ -183,6 +186,8 @@ class _CalculatorState extends State<Calculator> {
       body: Container(
         alignment: Alignment.center,
         child: Column(
+          mainAxisSize: MainAxisSize.max,
+
           children: <Widget>[
             _displayArea(),
             _keyboardArea(),
