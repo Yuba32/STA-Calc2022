@@ -127,6 +127,7 @@ class _CalculatorState extends State<Calculator> {
           ),
           Container(
             alignment: Alignment.topRight,
+            width: double.infinity,
             child: Text(
               result,
               style: const TextStyle(
@@ -134,7 +135,6 @@ class _CalculatorState extends State<Calculator> {
               ),
               textAlign: TextAlign.right,
             ),
-            width: double.infinity,
           ),
         ],
       ),
@@ -144,7 +144,6 @@ class _CalculatorState extends State<Calculator> {
   Widget _keyboardArea() {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: 640,
         maxWidth: 500,
       ),
       alignment: Alignment.topCenter,
@@ -181,13 +180,15 @@ class _CalculatorState extends State<Calculator> {
   //complete
   @override
   Widget build(BuildContext context) {
+    // final deviceHeight = MediaQuery.of(context).size.height;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: Center(
+        body: Container(
+          alignment: Alignment.center,
           child: Column(
             children: <Widget>[
               _displayArea(),
