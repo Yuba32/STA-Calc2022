@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:clipboard/clipboard.dart';
 
 class Calculator extends StatefulWidget {
   const Calculator({Key? key, required this.title}) : super(key: key);
@@ -41,7 +42,8 @@ class _CalculatorState extends State<Calculator> {
           allclear();
         }
       }
-      if (value == "0" && ((double.tryParse(val) != null) || val == "(" || val == "-")) {
+      if (value == "0" &&
+          ((double.tryParse(val) != null) || val == "(" || val == "-")) {
         //valueが0の状態で数字キーもしくは(を押すと上書き
         value = val;
       } else {
@@ -111,12 +113,11 @@ class _CalculatorState extends State<Calculator> {
         text,
         textAlign: TextAlign.center,
         style: const TextStyle(
-          color: Colors.black,
-          fontSize: 50,
-          fontFamily: 'NotoSansMonoCJKjp',
-          fontWeight: FontWeight.bold,
-          textBaseline: TextBaseline.ideographic
-        ),
+            color: Colors.black,
+            fontSize: 50,
+            fontFamily: 'NotoSansMonoCJKjp',
+            fontWeight: FontWeight.bold,
+            textBaseline: TextBaseline.ideographic),
       ),
     );
   }
@@ -124,8 +125,7 @@ class _CalculatorState extends State<Calculator> {
   Widget _displayArea() {
     return Container(
       alignment: Alignment.topCenter,
-      constraints: BoxConstraints(
-      ),
+      constraints: BoxConstraints(),
       child: Column(
         children: [
           Container(
@@ -159,7 +159,7 @@ class _CalculatorState extends State<Calculator> {
     return Container(
       constraints: BoxConstraints(
         maxWidth: 110 * 5,
-        maxHeight: 110 * 4+10,
+        maxHeight: 110 * 4 + 10,
       ),
       alignment: Alignment.bottomCenter,
       child: GridView.count(
@@ -201,6 +201,21 @@ class _CalculatorState extends State<Calculator> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.copy,
+              color: Colors.white,
+              size: 20,
+              semanticLabel: "コピー",
+            ),
+            onPressed: () {
+              if (result != "") {
+                FlutterClipboard.copy(result);
+              }
+            },
+          )
+        ],
       ),
       body: Container(
         alignment: Alignment.center,
