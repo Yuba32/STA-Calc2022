@@ -31,8 +31,18 @@ class _CalculatorState extends State<Calculator> {
 
   void setVal(String val) {
     setState(() {
-      if (value == "0" && ((double.tryParse(val) != null) || val == "(")) {
-        //0の状態で数字キーもしくは(を押すと上書き
+      if (result != "") {
+        //計算後に記号キーが押された場合,現在の計算結果をvalueに代入
+        if (val == "+" || val == "-" || val == "*" || val == "/") {
+          value = result;
+          result = "";
+        } else {
+          //記号キー以外が押された場合はACする
+          allclear();
+        }
+      }
+      if (value == "0" && ((double.tryParse(val) != null) || val == "(" || val == "-")) {
+        //valueが0の状態で数字キーもしくは(を押すと上書き
         value = val;
       } else {
         //それ以外の場合は文字列として追加
@@ -88,6 +98,7 @@ class _CalculatorState extends State<Calculator> {
       style: ElevatedButton.styleFrom(
         primary: color,
         onPrimary: Colors.black,
+        alignment: Alignment.center,
         shape: const CircleBorder(
           side: BorderSide(
             color: Colors.black45,
@@ -99,7 +110,13 @@ class _CalculatorState extends State<Calculator> {
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: const TextStyle(color: Colors.black, fontSize: 50),
+        style: const TextStyle(
+          color: Colors.black,
+          fontSize: 50,
+          fontFamily: 'NotoSansMonoCJKjp',
+          fontWeight: FontWeight.bold,
+          textBaseline: TextBaseline.ideographic
+        ),
       ),
     );
   }
@@ -108,7 +125,6 @@ class _CalculatorState extends State<Calculator> {
     return Container(
       alignment: Alignment.topCenter,
       constraints: BoxConstraints(
-        minHeight: 200,
       ),
       child: Column(
         children: [
@@ -142,13 +158,16 @@ class _CalculatorState extends State<Calculator> {
   Widget _keyboardArea() {
     return Container(
       constraints: BoxConstraints(
-        maxWidth: 100 * 5,
-        maxHeight: 100 * 4,
+        maxWidth: 110 * 5,
+        maxHeight: 110 * 4+10,
       ),
-      alignment: Alignment.topCenter,
+      alignment: Alignment.bottomCenter,
       child: GridView.count(
         childAspectRatio: 1 / 1,
         crossAxisCount: 5,
+        padding: EdgeInsets.all(5),
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
         shrinkWrap: true,
         children: <Widget>[
           getButton("7", Colors.white),
@@ -185,9 +204,11 @@ class _CalculatorState extends State<Calculator> {
       ),
       body: Container(
         alignment: Alignment.center,
+        constraints: BoxConstraints(
+          maxHeight: deviceHeight,
+        ),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _displayArea(),
             _keyboardArea(),
