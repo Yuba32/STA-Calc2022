@@ -33,7 +33,7 @@ class _CalculatorState extends State<Calculator> {
   void setVal(String val) {
     setState(() {
       if (result != "") {
-        //計算後に記号キーが押された場合,現在の計算結果をvalueに代入
+        //計算後に演算記号を入力した場合,現在の計算結果をvalueに代入
         if (val == "+" || val == "-" || val == "*" || val == "/") {
           value = result;
           result = "";
@@ -47,9 +47,56 @@ class _CalculatorState extends State<Calculator> {
         //valueが0の状態で数字キーもしくは(を押すと上書き
         value = val;
       } else {
-        //それ以外の場合は文字列として追加
-        value += val;
+        String lastval = value[value.length - 1];
+        //入力が演算記号
+        if (val == "+" || val == "-" || val == "*" || val == "/") {
+          //直前と入力の記号が同じ もしくは (の直後に-以外の記号を入力しようとした場合
+          if (val == lastval || (val != "-" && lastval == "(")) {
+            //入力を拒否
+          }
+          //入力が-以外 かつ 直前入力が記号の場合
+          else if (val != "-" &&
+              (lastval == "+" ||
+                  lastval == "-" ||
+                  lastval == "*" ||
+                  lastval == "/")) {
+            //直前の記号を入力で上書き
+            delchar();
+            value += val;
+          } else {
+            //それ以外()
+            value += val;
+          }
+        }
+        //入力が( かつ 直前が数字 . )
+        else if (val == "(" &&
+            ((double.tryParse(lastval) != null) ||
+                (lastval == ".") ||
+                lastval == ")")) {
+          //入力を拒否
+        }
+        //入力が)かつ直前が記号
+        else if (val == ")" &&
+            (lastval == "+" ||
+                lastval == "-" ||
+                lastval == "*" ||
+                lastval == "/" ||
+                lastval == "." ||
+                lastval == "(")) {
+          //入力を拒否
+        }
+        //直前が数字以外 かつ 入力が ".""
+        else if (val == "." && double.tryParse(lastval) == null) {
+          //入力を拒否
+        }
+        //上記のルールに該当しない場合
+        else {
+          //入力を文字列の末尾に追加
+          value += val;
+        }
       }
+
+      //直前に対応するカッコがない場合閉じカッコは追加できない
     });
   }
 
@@ -163,7 +210,7 @@ class _CalculatorState extends State<Calculator> {
       ),
       alignment: Alignment.bottomCenter,
       child: GridView.count(
-        childAspectRatio: 1 / 1,
+        childAspectRatio: 1,
         crossAxisCount: 5,
         padding: EdgeInsets.all(5),
         mainAxisSpacing: 5,
