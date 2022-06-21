@@ -171,7 +171,7 @@ class _CalculatorState extends State<Calculator> {
 
   Widget _displayArea() {
     return Container(
-      alignment: Alignment.topCenter,
+      alignment: Alignment.topRight,
       constraints: BoxConstraints(),
       child: Column(
         children: [
@@ -265,7 +265,7 @@ class _CalculatorState extends State<Calculator> {
         ],
       ),
       body: Container(
-        alignment: Alignment.center,
+        alignment: Alignment.topCenter,
         constraints: BoxConstraints(
           maxHeight: deviceHeight,
         ),
