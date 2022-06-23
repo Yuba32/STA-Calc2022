@@ -110,8 +110,6 @@ class _CalculatorState extends State<Calculator> {
           value += val;
         }
       }
-
-      //直前に対応するカッコがない場合閉じカッコは追加できない
     });
   }
 
@@ -176,9 +174,9 @@ class _CalculatorState extends State<Calculator> {
         textAlign: TextAlign.center,
         style: const TextStyle(
             color: Colors.black,
-            fontSize: 50,
+            fontSize: 45,
             fontFamily: 'NotoSansMonoCJKjp',
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w600,
             textBaseline: TextBaseline.ideographic),
       ),
     );
@@ -187,27 +185,35 @@ class _CalculatorState extends State<Calculator> {
   Widget _displayArea() {
     return Container(
       alignment: Alignment.topRight,
-      constraints: BoxConstraints(),
+      width: double.infinity,
+      constraints: const BoxConstraints(),
       child: Column(
         children: [
           Container(
-            alignment: Alignment.topRight,
+            //数式
+            alignment: Alignment.centerRight,
+            margin: const EdgeInsets.only(left: 15,right: 15),
             child: Text(
               value,
               style: const TextStyle(
-                fontSize: 30,
-                color: Colors.grey,
+                textBaseline: TextBaseline.ideographic,
+                fontSize: 50,
+                color: Color.fromARGB(255, 90, 90, 90),
+                height: 1.5,
               ),
               textAlign: TextAlign.right,
             ),
           ),
           Container(
-            alignment: Alignment.topRight,
-            width: double.infinity,
+            //計算結果
+            alignment: Alignment.centerRight,
+            margin: const EdgeInsets.only(left: 15,right: 15),
             child: Text(
               result,
               style: const TextStyle(
-                fontSize: 90,
+                textBaseline: TextBaseline.ideographic,
+                fontSize: 100,
+                height: 1.5,
               ),
               textAlign: TextAlign.right,
             ),
@@ -272,7 +278,9 @@ class _CalculatorState extends State<Calculator> {
               semanticLabel: "コピー",
             ),
             onPressed: () {
+              //resultの中身が存在する場合
               if (result != "") {
+                //クリップボードにresultをコピー
                 FlutterClipboard.copy(result);
               }
             },
@@ -288,6 +296,7 @@ class _CalculatorState extends State<Calculator> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _displayArea(),
+            const Divider(),
             _keyboardArea(),
           ],
         ),
