@@ -87,13 +87,13 @@ class _CalculatorState extends State<Calculator> {
             //入力を拒否
           } else {
             //左括弧の数を取得
-            final Lparreg = RegExp('[(]');
-            int LparCnt = Lparreg.allMatches(value).length;
+            final lParreg = RegExp('[(]');
+            int lParCnt = lParreg.allMatches(value).length;
             //右括弧の数を取得
-            final Rparreg = RegExp('[)]');
-            int RparCnt = Rparreg.allMatches(value).length;
+            final rParreg = RegExp('[)]');
+            int rParCnt = rParreg.allMatches(value).length;
             //左括弧の数が0もしくは左括弧と右括弧の数が同一
-            if (LparCnt == 0 || LparCnt ==RparCnt) {
+            if (lParCnt == 0 || lParCnt == rParCnt) {
               //入力を拒否
             } else {
               value += val;
