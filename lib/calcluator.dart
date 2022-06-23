@@ -75,15 +75,30 @@ class _CalculatorState extends State<Calculator> {
                 lastval == ")")) {
           //入力を拒否
         }
-        //入力が)かつ直前が記号
-        else if (val == ")" &&
-            (lastval == "+" ||
-                lastval == "-" ||
-                lastval == "*" ||
-                lastval == "/" ||
-                lastval == "." ||
-                lastval == "(")) {
-          //入力を拒否
+        //入力が)
+        else if (val == ")") {
+          //直前が記号
+          if (lastval == "+" ||
+              lastval == "-" ||
+              lastval == "*" ||
+              lastval == "/" ||
+              lastval == "." ||
+              lastval == "(") {
+            //入力を拒否
+          } else {
+            //左括弧の数を取得
+            final Lparreg = RegExp('[(]');
+            int LparCnt = Lparreg.allMatches(value).length;
+            //右括弧の数を取得
+            final Rparreg = RegExp('[)]');
+            int RparCnt = Rparreg.allMatches(value).length;
+            //左括弧の数が0もしくは左括弧と右括弧の数が同一
+            if (LparCnt == 0 || LparCnt ==RparCnt) {
+              //入力を拒否
+            } else {
+              value += val;
+            }
+          }
         }
         //直前が数字以外 かつ 入力が ".""
         else if (val == "." && double.tryParse(lastval) == null) {
@@ -204,7 +219,7 @@ class _CalculatorState extends State<Calculator> {
 
   Widget _keyboardArea() {
     return Container(
-      constraints: BoxConstraints(
+      constraints: const BoxConstraints(
         maxWidth: 110 * 5,
         maxHeight: 110 * 4 + 10,
       ),
@@ -212,7 +227,7 @@ class _CalculatorState extends State<Calculator> {
       child: GridView.count(
         childAspectRatio: 1,
         crossAxisCount: 5,
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
         shrinkWrap: true,
@@ -250,7 +265,7 @@ class _CalculatorState extends State<Calculator> {
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.copy,
               color: Colors.white,
               size: 20,
