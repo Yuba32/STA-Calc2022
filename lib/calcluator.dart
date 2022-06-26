@@ -87,11 +87,9 @@ class _CalculatorState extends State<Calculator> {
             //入力を拒否
           } else {
             //左括弧の数を取得
-            final lParreg = RegExp('[(]');
-            int lParCnt = lParreg.allMatches(value).length;
+            int lParCnt = RegExp('[(]').allMatches(value).length;
             //右括弧の数を取得
-            final rParreg = RegExp('[)]');
-            int rParCnt = rParreg.allMatches(value).length;
+            int rParCnt = RegExp('[)]').allMatches(value).length;
             //左括弧の数が0もしくは左括弧と右括弧の数が同一
             if (lParCnt == 0 || lParCnt == rParCnt) {
               //入力を拒否
@@ -153,6 +151,12 @@ class _CalculatorState extends State<Calculator> {
     }
   }
 
+  void keybind(key) {
+    if (double.tryParse(key) != null) {
+      buttonpress(key);
+    } else {}
+  }
+
   //ボタン生成
   Widget getButton(String text, Color color) {
     return ElevatedButton(
@@ -192,7 +196,7 @@ class _CalculatorState extends State<Calculator> {
           Container(
             //数式
             alignment: Alignment.centerRight,
-            margin: const EdgeInsets.only(left: 15,right: 15),
+            margin: const EdgeInsets.only(left: 15, right: 15),
             child: Text(
               value,
               style: const TextStyle(
@@ -207,7 +211,7 @@ class _CalculatorState extends State<Calculator> {
           Container(
             //計算結果
             alignment: Alignment.centerRight,
-            margin: const EdgeInsets.only(left: 15,right: 15),
+            margin: const EdgeInsets.only(left: 15, right: 15),
             child: Text(
               result,
               style: const TextStyle(
@@ -266,39 +270,46 @@ class _CalculatorState extends State<Calculator> {
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.copy,
-              color: Colors.white,
-              size: 20,
-              semanticLabel: "コピー",
-            ),
-            onPressed: () {
-              //resultの中身が存在する場合
-              if (result != "") {
-                //クリップボードにresultをコピー
-                FlutterClipboard.copy(result);
-              }
-            },
-          )
-        ],
-      ),
-      body: Container(
-        alignment: Alignment.topCenter,
-        constraints: BoxConstraints(
-          maxHeight: deviceHeight,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            _displayArea(),
-            const Divider(),
-            _keyboardArea(),
+    FocusNode _focusNode = FocusNode(
+
+    );
+    return KeyboardListener(
+      focusNode: _focusNode,
+      autofocus: true,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(
+                Icons.copy,
+                color: Colors.white,
+                size: 20,
+                semanticLabel: "コピー",
+              ),
+              onPressed: () {
+                //resultの中身が存在する場合
+                if (result != "") {
+                  //クリップボードにresultをコピー
+                  FlutterClipboard.copy(result);
+                }
+              },
+            )
           ],
+        ),
+        body: Container(
+          alignment: Alignment.topCenter,
+          constraints: BoxConstraints(
+            maxHeight: deviceHeight,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _displayArea(),
+              const Divider(),
+              _keyboardArea(),
+            ],
+          ),
         ),
       ),
     );
