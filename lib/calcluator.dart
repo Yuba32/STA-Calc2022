@@ -151,12 +151,6 @@ class _CalculatorState extends State<Calculator> {
     }
   }
 
-  void keybind(key) {
-    if (double.tryParse(key) != null) {
-      buttonpress(key);
-    } else {}
-  }
-
   //ボタン生成
   Widget getButton(String text, Color color) {
     return ElevatedButton(
@@ -267,15 +261,27 @@ class _CalculatorState extends State<Calculator> {
     );
   }
 
+  KeyEventResult keyEvent(FocusNode node, KeyEvent event) {
+    final keyst = event.logicalKey.debugName;
+    final char = event.character.toString();
+    if (char.contains(RegExp(r'[0-9]'))) {
+      setState(() {
+        buttonpress(char);
+      });
+      return KeyEventResult.handled;
+    } else if (keyst == "Enter") {
+      return KeyEventResult.handled;
+    } else {
+      return KeyEventResult.ignored;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
-    FocusNode _focusNode = FocusNode(
-
-    );
-    return KeyboardListener(
-      focusNode: _focusNode,
+    return Focus(
       autofocus: true,
+      onKeyEvent: (node, event) => keyEvent(node, event),
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
