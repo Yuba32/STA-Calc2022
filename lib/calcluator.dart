@@ -239,6 +239,8 @@ class _CalculatorState extends State<Calculator> {
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
         shrinkWrap: true,
+        primary: true,
+        physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
           getButton("7", Colors.white),
           getButton("8", Colors.white),
