@@ -298,7 +298,6 @@ class _CalculatorState extends State<Calculator> {
             }
           } else {
             switch (keyst) {
-              // 二重発火するので使用不可
               case "Backspace":
                 delchar();
                 return KeyEventResult.handled;
