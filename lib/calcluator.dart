@@ -140,14 +140,18 @@ class _CalculatorState extends State<Calculator> {
   }
 
   void buttonpress(String text) {
-    if (text == "AC") {
-      allclear();
-    } else if (text == "BS") {
-      delchar();
-    } else if (text == "=") {
-      resolve();
-    } else {
-      setVal(text);
+    switch (text) {
+      case "AC":
+        allclear();
+        break;
+      case "BS":
+        delchar();
+        break;
+      case "=":
+        resolve();
+        break;
+      default:
+        setVal(text);
     }
   }
 
@@ -261,27 +265,57 @@ class _CalculatorState extends State<Calculator> {
     );
   }
 
-  KeyEventResult keyEvent(FocusNode node, KeyEvent event) {
-    final keyst = event.logicalKey.debugName;
-    final char = event.character.toString();
-    if (char.contains(RegExp(r'[0-9]'))) {
-      setState(() {
-        buttonpress(char);
-      });
-      return KeyEventResult.handled;
-    } else if (keyst == "Enter") {
-      return KeyEventResult.handled;
-    } else {
-      return KeyEventResult.ignored;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     return Focus(
       autofocus: true,
-      onKeyEvent: (node, event) => keyEvent(node, event),
+      onKeyEvent: (node, event) {
+        final keyst = event.logicalKey.debugName;
+        final char = event.character.toString();
+
+        if (event.runtimeType.toString() == "KeyDownEvent") {
+          if (char != "null") {
+            if (char.contains(RegExp(r'[0-9]'))) {
+              buttonpress(char);
+              return KeyEventResult.handled;
+            } else {
+              switch (char) {
+                case "+":
+                case "-":
+                case "*":
+                case "/":
+                case "(":
+                case ")":
+                  buttonpress(char);
+                  return KeyEventResult.handled;
+                case "=":
+                  resolve();
+                  return KeyEventResult.handled;
+                default:
+                  return KeyEventResult.ignored;
+              }
+            }
+          } else {
+            switch (keyst) {
+              // 二重発火するので使用不可
+              case "Backspace":
+                delchar();
+                return KeyEventResult.handled;
+              case "Enter":
+                resolve();
+                return KeyEventResult.handled;
+              case "Escape":
+                allclear();
+                return KeyEventResult.handled;
+              default:
+                return KeyEventResult.ignored;
+            }
+          }
+        }else{
+          return KeyEventResult.ignored;
+        }
+      },
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
