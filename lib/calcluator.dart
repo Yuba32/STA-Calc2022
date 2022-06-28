@@ -175,11 +175,12 @@ class _CalculatorState extends State<Calculator> {
         text,
         textAlign: TextAlign.center,
         style: const TextStyle(
-            color: Colors.black,
-            fontSize: 45,
-            fontFamily: 'NotoSansMonoCJKjp',
-            fontWeight: FontWeight.w600,
-            textBaseline: TextBaseline.ideographic),
+          color: Colors.black,
+          fontSize: 45,
+          fontFamily: 'NotoSansMonoCJKjp',
+          fontWeight: FontWeight.w500,
+          textBaseline: TextBaseline.ideographic,
+        ),
       ),
     );
   }
@@ -269,7 +270,8 @@ class _CalculatorState extends State<Calculator> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height;
+    var deviceHeight = MediaQuery.of(context).size.height;
+    var deviceWidth = MediaQuery.of(context).size.width;
     return Focus(
       autofocus: true,
       onKeyEvent: (node, event) {
@@ -313,7 +315,7 @@ class _CalculatorState extends State<Calculator> {
                 return KeyEventResult.ignored;
             }
           }
-        }else{
+        } else {
           return KeyEventResult.ignored;
         }
       },
