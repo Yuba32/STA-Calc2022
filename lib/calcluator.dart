@@ -130,6 +130,10 @@ class _CalculatorState extends State<Calculator> {
       Expression exp = p.parse(value);
       setState(() {
         result = exp.evaluate(EvaluationType.REAL, cm).toString();
+        //計算結果が整数の場合は小数点以下を削除
+        if (result.contains(RegExp(r'\.0$'))) {
+          result = result.substring(0, result.length - 2);
+        }
       });
     } catch (e) {
       //例外処理
@@ -160,8 +164,10 @@ class _CalculatorState extends State<Calculator> {
     return ElevatedButton(
       onPressed: () => buttonpress(text),
       style: ElevatedButton.styleFrom(
-        primary: color,
-        onPrimary: Colors.black,
+        // primary: color,
+        backgroundColor: color,
+        // onPrimary: Colors.black,
+        foregroundColor: Colors.black,
         alignment: Alignment.center,
         shape: const CircleBorder(
           side: BorderSide(
